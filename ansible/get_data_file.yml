@@ -1,0 +1,22 @@
+---
+#
+# This playbook will download the CSV data set from the NTSB.
+#
+# Usage: ansible-playbook -i hosts get_data_file.yml --extra-vars "format=[csv|xml]" --ask-pass
+#
+- hosts: splunk_env
+  remote_user: "{{ remote_user }}"
+  gather_facts: no
+  tasks:
+  - name: Download the NTSB data set as {{ format }}
+    get_url:
+      url: http://app.ntsb.gov/aviationquery/Download.ashx?type={{ format }}
+      dest: /tmp
+      mode: 0444
+      force: yes
+    register: dl_out
+    ignore_errors: yes
+
+  - name: Print out the status of the download
+    debug:
+      msg: "The call for '{{ dl_out.url }}' was '{{ dl_out.msg }}'."

@@ -1,0 +1,13 @@
+---
+#
+# Variables applicable to all host groups
+#
+
+# the user you want to run the script as
+remote_user: "cory"
+
+# the Splunk index index name (as seen in the Splunk Web)
+index_name: "ntsb_csv"
+
+# the Splunk Home directory (where the binaries are found)
+SPLUNK_HOME: "/Applications/Splunk"
