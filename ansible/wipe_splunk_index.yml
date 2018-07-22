@@ -1,0 +1,30 @@
+---
+#
+# This playbook will connect to splunkd and wipe an index of events.
+# The most likely use-case for this script is for a system that needs to have a
+# data refresh and we need to prevent duplicate data from appearing in the index.
+#
+# Usage: ansible-playbook -i hosts wipe_splunk_index.yml --ask-pass
+# Note: could not use service module on OS X
+#
+- hosts: splunk_env
+  remote_user: "{{ remote_user }}"  
+  gather_facts: no
+  tasks:
+  - name: Status check on splunkd
+    command: "{{ SPLUNK_HOME }}/bin/splunk status"
+    register: status_out
+    ignore_errors: yes
+
+  # - debug:
+  #     var: status_out.stdout
+
+  - name: Stop splunkd
+    command: "{{ SPLUNK_HOME }}/bin/splunk stop"
+    when: status_out.stdout | join('') | regex_search("splunkd is running", multiline=True, ignorecase=True)    
+
+  - name: Wipe the {{ index_name }} Splunk index
+    command: "{{ SPLUNK_HOME }}/bin/splunk clean eventdata -index {{ index_name }} -f"
+
+  - name: Start splunkd
+    command: "{{ SPLUNK_HOME }}/bin/splunk start"

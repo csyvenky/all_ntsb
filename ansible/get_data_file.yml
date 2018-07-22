@@ -11,7 +11,7 @@
   - name: Download the NTSB data set as {{ format }}
     get_url:
       url: http://app.ntsb.gov/aviationquery/Download.ashx?type={{ format }}
-      dest: /tmp
+      dest: "{{ data_destination_dir }}"
       mode: 0444
       force: yes
     register: dl_out
