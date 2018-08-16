@@ -1,0 +1,22 @@
+---
+#
+# This playbook will connect restart splunkd.
+#
+# Usage: ansible-playbook -i hosts restart_splunk.yml --ask-pass
+# Note: could not use service module on OS X
+#
+- hosts: splunk_env
+  remote_user: "{{ remote_user }}"  
+  gather_facts: no
+  tasks:
+  - name: Status check on splunkd
+    command: "{{ SPLUNK_HOME }}/bin/splunk status"
+    register: status_out
+    ignore_errors: yes
+
+  - name: Stop splunkd
+    command: "{{ SPLUNK_HOME }}/bin/splunk stop"
+    when: status_out.stdout | join('') | regex_search("splunkd is running", multiline=True, ignorecase=True) 
+
+  - name: Start splunkd
+    command: "{{ SPLUNK_HOME }}/bin/splunk start"
