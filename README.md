@@ -14,3 +14,7 @@ Playbooks:
     ```
     ansible-playbook -i hosts wipe_splunk_index.yml --ask-pass
     ```
+3. *restart_splunk.yml* - a quick and dirty restart tool for splunkd.
+    ```
+    ansible-playbook -i hosts restart_splunk.yml --ask-pass
+    ```
