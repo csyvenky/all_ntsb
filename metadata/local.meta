@@ -1,0 +1,50 @@
+[app/ui]
+version = 6.5.0
+modtime = 1482515865.975039000
+
+[app/launcher]
+version = 6.5.0
+modtime = 1482515866.008663000
+
+[lookups/ourairports_data.csv]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1488748060.074003000
+
+[transforms/OurAirports.com]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1488750669.188236000
+
+[props/ntsb]
+owner = admin
+version = 7.0.2
+modtime = 1522211258.484422000
+
+[views/ntsb]
+owner = admin
+version = 7.1.2
+modtime = 1534389202.563622000
+
+[indexes/ntsb_csv]
+owner = admin
+version = 7.0.3
+modtime = 1524326072.807117000
+
+[props/ntsb_csv]
+owner = admin
+version = 7.0.3
+modtime = 1524799502.905103000
+
+[inputs/splunktcp%3A%2F%2F9997]
+owner = admin
+version = 7.1.1
+modtime = 1529635488.171236000
+
+[inputs/monitor%3A%2F%2F%2FUsers%2Fcory%2FDesktop%2FNTSB_Data%2FAviationData.csv]
+owner = admin
+version = 7.1.2
+modtime = 1534388675.675608000

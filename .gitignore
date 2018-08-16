@@ -11,5 +11,7 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+### OS X ###
+.DS_Store
 
 # End of https://www.gitignore.io/api/ansible,visualstudiocode

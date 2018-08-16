@@ -6,11 +6,23 @@
 # the user you want to run the script as
 remote_user: "cory"
 
-# the Splunk index name (as seen in the Splunk Web)
-index_name: "ntsb_csv"
-
 # the Splunk Home directory (where the binaries are found)
 SPLUNK_HOME: "/Applications/Splunk"
+
+# the Splunk web service endpoint address
+endpoint_host: "maui"
+endpoint_port: "8089"
+endpoint_baseurl: "https://{{ endpoint_host }}:{{ endpoint_port }}"
+endpoint_user: "admin"
+# DO NOT COMMIT TO GIT
+endpoint_pass: "basses"
+# DO NOT COMMIT TO GIT
+
+# the Splunk app name where the create_app playbook will use
+app_name: "all_ntsb"
+
+# the Splunk index name (as seen in the Splunk Web)
+index_name: "ntsb_csv"
 
 # the directory where get_date_file playbook will save
 data_destination_dir: "/Users/cory/Desktop/NTSB_Data/"
