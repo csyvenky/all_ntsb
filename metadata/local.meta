@@ -19,6 +19,20 @@ owner = admin
 version = 6.5.2
 modtime = 1488750669.188236000
 
+[datamodels/ntsb_w_Event_Date]
+access = write : [ admin, power ]
+export = none
+owner = admin
+version = 7.1.0
+modtime = 1528649772.718807000
+
+[models/ntsb_w_Event_Date]
+access = write : [ admin, power ]
+export = none
+owner = admin
+version = 7.1.0
+modtime = 1528649772.726060000
+
 [props/ntsb]
 owner = admin
 version = 7.0.2
