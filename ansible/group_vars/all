@@ -15,7 +15,7 @@ endpoint_port: "8089"
 endpoint_baseurl: "https://{{ endpoint_host }}:{{ endpoint_port }}"
 endpoint_user: "admin"
 # DO NOT COMMIT TO GIT
-endpoint_pass: "basses"
+endpoint_pass: "***"
 # DO NOT COMMIT TO GIT
 
 # the Splunk app name where the create_app playbook will use
