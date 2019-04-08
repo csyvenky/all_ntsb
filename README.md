@@ -61,13 +61,8 @@ Delimit on the "*,*" char.
 ## (optionally) Purge previous imports of same dataset
 This step may be required if you have imported this same dataset another time - with the current configuration Splunk will happily import dupicate events. As the entire dataset is in each download we can safely import the entire dataset each time.
 
-Execute the following to purge:
-- $SPLUNK_HOME/bin/splunk stop 
-- $SPLUNK_HOME/bin/splunk clean eventdata -index ntsb_csv
-- $SPLUNK_HOME/bin/splunk start
-
 ## Injest data into Splunk
-1. Access the [file upload dialog](https://<your_instance>.cloud.splunk.com/en-GB/manager/launcher/adddata/selectsource?input_mode=0).
+1. Access the [file upload dialog](https://your_instance.cloud.splunk.com/en-GB/manager/launcher/adddata/selectsource?input_mode=0).
 2. Upload the CSV (alternatively you could use a Splunk Forwarder to push the content of this file). Next.
 3. Select "*ntsb_csv*" as source type. The preview of the data on the right hand side should be accurate with no warnings. Next.
 4. Input settings | Host can be left as-is.
@@ -75,16 +70,32 @@ Execute the following to purge:
 6. Submit.
 
 ## Validate Data Import
-1. Access the [app homepage](https://<your_instance>.cloud.splunk.com/en-GB/app/all_ntsb/search).
+1. Access the [app homepage](https://your_instance.cloud.splunk.com/en-GB/app/all_ntsb/search).
 2. Run the following search: "*index=ntsb_csv sourcetype=ntsb_csv*". In my instance I have > 82,000 events.
 3. After all that work cleaning up the data, we should make sure that state was parsed correctly. Run the following search: "*index=ntsb_csv sourcetype=ntsb_csv | stats count by State | sort - count*"
 
 # Create the Dashboard UI
-1. Access the [Dashboards Portal](https://<your_instance>.cloud.splunk.com/en-GB/app/all_ntsb/dashboards) | Create New Dashboard.
+1. Access the [Dashboards page](https://your_instance.cloud.splunk.com/en-GB/app/all_ntsb/dashboards) | Create New Dashboard.
 Title: "*All NTSB Dashboard*"
 Permissions: "*Share in App*"
 2. Immediately edit the Dashboard in "*Source*" mode.
 3. Copy and paste the code from the [github repo](https://raw.githubusercontent.com/csyvenky/all_ntsb/master/local/data/ui/views/ntsb.xml). Save.
+
+# Add OurAirports.com Lookup Data
+1. [Download the data file](https://github.com/csyvenky/all_ntsb/blob/master/lookups/ourairports_data.csv). Upload it via the control in Splunk Web.
+2. Access the [Lookups page](https://your_instance.cloud.splunk.com/en-GB/manager/search/lookups). Add new.
+Destination App: "*all_ntsb*"
+Destnation FileName: "*ourairports_data.csv*"
+
+# Add Lookup Definition
+1. Access the [Lookups page](https://your_instance.cloud.splunk.com/en-GB/manager/all_ntsb/lookups). Add new.
+Destination App: "*all_ntsb*"
+Name: "*OurAirports.com*"
+Lookup File: "*ourairports_data.csv*"
+
+## Validate the Lookup
+1. Access the [app homepage](https://your_instance.cloud.splunk.com/en-GB/app/all_ntsb/search).
+2. Run the following search: "*| inputlookup ourairports_data.csv*".
 
 ---
 
