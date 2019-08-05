@@ -1,4 +1,4 @@
-<form>
+<form theme="dark">
   <label>All NTSB Dashboard</label>
   <fieldset autoRun="true" submitButton="false">
     <input type="time" token="field1">
@@ -14,7 +14,7 @@
       <title>Count by month with average over time</title>
       <chart>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv"
+          <query>(`ntsb_index` sourcetype="ntsb_csv") 
 | timechart count span=1mon as Count
 | streamstats global=f avg(Count) as Average
 | eval Average = round(Average)</query>
@@ -60,10 +60,10 @@
   </row>
   <row>
     <panel>
-      <title>All by Airport Name (OurAirports.com Lookup)</title>
+      <title>All by Airport Name</title>
       <map>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | rename "Airport Code" as AirportCode
 | rename "Airport Name" as AirportName
 | eval AirportName = lower(AirportName)
@@ -103,12 +103,12 @@
   </row>
   <row>
     <panel>
-      <title>All by NTSB Location</title>
+      <title>All by City, State</title>
       <map>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
-| eval Location = lower(Location)
-| geostats latfield=Latitude longfield=Longitude count by Location globallimit=0</query>
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
+| eval city_state = lower(City + ", " + State)
+| geostats latfield=Latitude longfield=Longitude count by city_state globallimit=0</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -146,7 +146,7 @@
       <title>Total Fatalities</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv") 
 | stats sum(Total Fatal Injuries) as "Total Fatalities" 
 | sort -count</query>
           <earliest>$field1.earliest$</earliest>
@@ -167,7 +167,7 @@
       <title>Total Injuries</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | rename "Total Minor Injuries" as tmi
 | rename "Total Serious Injuries" as tsi
 | eval totalInjuries = tmi + tsi
@@ -191,7 +191,7 @@
       <title>Total Uninjured</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv"
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats sum(Total Uninjured) as "Total Uninjured" 
 | sort -count</query>
           <earliest>$field1.earliest$</earliest>
@@ -214,7 +214,7 @@
       <title>Count by Operator Name</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Air Carrier"
 | sort -count</query>
           <earliest>$field1.earliest$</earliest>
@@ -236,7 +236,7 @@
       <title>Count by Report Status</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Report Status"
 | sort -count</query>
           <earliest>-30d@d</earliest>
@@ -256,7 +256,7 @@
       <title>Count by Investigation Type</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Investigation Type"
 | sort - count</query>
           <earliest>$field1.earliest$</earliest>
@@ -277,7 +277,7 @@
       <title>Purpose Of Flight</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Purpose of Flight"
 | sort - count</query>
           <earliest>$field1.earliest$</earliest>
@@ -298,7 +298,7 @@
       <title>Count by Weather Condition</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Weather Condition"
 | sort - count</query>
           <earliest>$field1.earliest$</earliest>
@@ -319,7 +319,7 @@
       <title>Count by FAR Description</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "FAR Description"
 | sort - count</query>
           <earliest>$field1.earliest$</earliest>
@@ -340,7 +340,7 @@
       <title>Count by Phase of Flight</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Broad Phase of Flight"
 | sort - count</query>
           <earliest>$field1.earliest$</earliest>
@@ -363,7 +363,7 @@
       <title>Count by Aircraft Category and Engine Count</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Aircraft Category", "Number of Engines"
 | sort -count</query>
           <earliest>$field1.earliest$</earliest>
@@ -384,7 +384,7 @@
       <title>Count by Aircraft Damage</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Aircraft Damage"
 | sort - count</query>
           <earliest>$field1.earliest$</earliest>
@@ -400,7 +400,7 @@
       <title>Count by Make and Model</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by Make, Model
 | sort -count</query>
           <earliest>$field1.earliest$</earliest>
@@ -421,7 +421,7 @@
       <title>Count by Aircraft ID</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Registration Number"
 | sort -count</query>
           <earliest>$field1.earliest$</earliest>
@@ -441,7 +441,7 @@
       <title>Is Amateur Built?</title>
       <table>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | stats count by "Amateur Built"
 | sort - count</query>
           <earliest>$field1.earliest$</earliest>
@@ -461,7 +461,7 @@
       <title>Top-20 by Airport Code</title>
       <chart>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv"
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | sort - count
 | top limit=20 "Airport Code"</query>
           <earliest>$field1.earliest$</earliest>
@@ -502,7 +502,7 @@
       <title>Top-20 by State</title>
       <chart>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | sort -count
 | top limit=20 "State"</query>
           <earliest>$field1.earliest$</earliest>
@@ -546,19 +546,20 @@
   </row>
   <row>
     <panel>
-      <title>Top-50 by Location</title>
+      <title>Top-50 by City, State</title>
       <chart>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv")
 | sort - count
-| top limit=50 Location</query>
+| eval city_state = City + ", " + State
+| top limit=50 city_state</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
-        <option name="charting.axisTitleX.text">Location</option>
+        <option name="charting.axisTitleX.text">City, State</option>
         <option name="charting.axisTitleX.visibility">visible</option>
         <option name="charting.axisTitleY.text">Count</option>
         <option name="charting.axisTitleY.visibility">visible</option>
@@ -633,7 +634,7 @@
       <title>Investigation Type by Country</title>
       <chart>
         <search>
-          <query>index="ntsb_csv" sourcetype="ntsb_csv" 
+          <query>(`ntsb_index` sourcetype="ntsb_csv") 
 | chart count by "Investigation Type", Country limit=0</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>

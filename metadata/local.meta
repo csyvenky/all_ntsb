@@ -40,8 +40,8 @@ modtime = 1522211258.484422000
 
 [views/ntsb]
 owner = admin
-version = 7.1.2
-modtime = 1534389202.563622000
+version = 7.3.0
+modtime = 1565029128.308173100
 
 [indexes/ntsb_csv]
 owner = admin
@@ -58,7 +58,14 @@ owner = admin
 version = 7.1.1
 modtime = 1529635488.171236000
 
-[inputs/monitor%3A%2F%2F%2FUsers%2Fcory%2FDesktop%2FNTSB_Data%2FAviationData.csv]
+[inputs/monitor%3A%2F%2FC%3A%5CUsers%5Ccory%5COneDrive%5CDocuments%5CPersonal%5CData%5CAviationData.csv]
 owner = admin
-version = 7.1.2
-modtime = 1534388675.675608000
+version = 7.3.0
+modtime = 1564982746.544787400
+
+[macros/ntsb_index]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 7.3.0
+modtime = 1565028123.267508800

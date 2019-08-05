@@ -14,4 +14,7 @@
 ### OS X ###
 .DS_Store
 
+### Backup ###
+*.bak
+
 # End of https://www.gitignore.io/api/ansible,visualstudiocode
